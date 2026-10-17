@@ -11,7 +11,7 @@ def estado():
 def tiempo():
     return random.randint(1, 100) 
 
-print("Bienvenido al programa de Diagnosstico de Redes")
+print("Bienvenido al programa de Diagnostico de Redes")
 
 for i in range(len(dispositivos)):
             diagnosticos[dispositivos[i]] = {"estado": estado(), "tiempo": tiempo()}
@@ -70,3 +70,9 @@ while True:
         print("Gracias por usar el programa de Diagnóstico de Redes")
         os.system("pause")
         break
+
+    if opcion>4 or opcion<1:
+        print("se digito un numero erroneo, se reiniciara el programa")
+        os.system("pause")
+        os.system("cls")
+        continue
