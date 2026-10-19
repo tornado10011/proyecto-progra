@@ -85,7 +85,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         print("Gracias por usar el programa de Diagnóstico de Redes")
         break
 
-    elif opcion>4 or opcion<1:
+    else:
         print("se digito un numero erroneo, se reiniciara el programa")
         os.system("pause")
         os.system("cls")
