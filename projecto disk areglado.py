@@ -1,5 +1,5 @@
-import random 
 import os
+import random
 
 dispositivos = ["Router", "Switch", "Servidor", "Access Point"]
 estados = ("Operativo", "Falla", "Mantenimiento") 
@@ -41,7 +41,7 @@ while True:
         os.system("pause")
         os.system("cls")
 
-    if opcion == 2:
+    elif opcion == 2:
         operativos=[]
         fallas=[]
         mantenimiento=[]
@@ -70,7 +70,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         os.system("pause")
         os.system("cls")
 
-    if opcion == 3:
+    elif opcion == 3:
         os.system("cls")
         diagnosticos.clear()
         for i in range(len(dispositivos)):
@@ -80,12 +80,12 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         os.system("cls")
 
 
-    if opcion == 4:
+    elif opcion == 4:
         os.system("cls")
         print("Gracias por usar el programa de Diagnóstico de Redes")
         break
 
-    if opcion>4 or opcion<1:
+    elif opcion>4 or opcion<1:
         print("se digito un numero erroneo, se reiniciara el programa")
         os.system("pause")
         os.system("cls")
