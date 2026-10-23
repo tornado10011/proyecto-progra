@@ -11,6 +11,28 @@ def estado():
 def tiempo():
     return random.randint(1, 100) 
 
+#estoy definiendo el pedir fecha para no escribir todo el codigo varias veces
+def pedir_fecha():
+    while True:
+        fecha=input("\nDigite la fecha para guardar el registro ejemplo:"" 221026 ""=dia/mes/año \nno poner espacios cuando indique la fecha \nDigite: ")
+        
+        #aqui lo que hago es dividir los datos ingresados por el usuario y los divido entre dia mes y año y luego lo formateo con un - por medio
+        if len(fecha) ==6:
+        
+            dia=fecha[:2]
+            mes=fecha[2:4]
+            año=fecha[4:6]
+        
+            fecha=f"{dia}-{mes}-{año}"
+            os.system("pause")
+            os.system("cls")
+            return fecha
+        else:
+            print("no ingreso los datos correctamente. Vuelva a intentarlo.")
+            os.system("pause")
+            os.system("cls")
+            continue
+
 os.system("cls")
 print("Bienvenido al programa de Diagnostico de Redes")
 
@@ -41,61 +63,34 @@ while True:
                 print(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms """)   # cuando se termina de imprimir la primera por ejemplo el router, se hace un \n automatico para seguir con el siguiente, por eso la funcion de arriba de recorrer cada dispositivo
             os.system("pause")
 
-            try:
-                histo=int(input("Desea guardar el historial de este reporte?\n\Digite: 1 si o 2 no: "))
-
-            except ValueError:
-                print("indico caracteres invalidos para guardar la fecha. intente de nuevo")
-                os.system("pause") 
-                continue
+            while True:
+                try:
+                    histo=int(input("Desea guardar el historial de este reporte?\nDigite: 1 si o 2 no: "))
+                    if histo<1 or histo>2:
+                        print("no indico que desea realizar correctamente") 
+                        os.system("pause")
+                        os.system("cls")
+                        continue
+                    break
+                except ValueError:
+                    print("indico caracteres invalidos. intente de nuevo")
+                    os.system("pause") 
+                    os.system("cls")
+                    continue
 
             if histo==1:
-                contador=0
-                while histo==1:
-                    try:
-                        #aqui le indico al usuario que me indique una fecha de registro
-                        fecha=input("Digite la fecha para guardar el registro ejemplo:\ndia:22\nmes:05 o 10\naño:26 \nno poner espacios cuando indique la fecha \nDigite: ")
+                fecha=pedir_fecha()
+                with open ("historial_red.txt", "a", encoding="utf-8") as historial:
+                    historial.write(f"\nfecha: {fecha}\n===== HISTORIAL DE REPORTE DE RED =====\n")
+                    for dispositivo, informacion in diagnosticos.items():   
+                        historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
+                    continue
+                break
 
-                        #aqui lo que hago es dividir los datos ingresados por el usuario y los divido entre dia mes y año y luego lo formateo con un -
-                        if len(fecha) ==6:
-                            
-                            dia=fecha[:2]
-                            mes=fecha[2:4]
-                            año=fecha[4:6]
-
-                            fecha=f"{dia}-{mes}-{año}"
-                            os.system("pause")
-                            os.system("cls")
-                        else:
-                            print("no ingreso los datos correctamente. Vuelva a intentarlo.")
-                            os.system("pause")
-                            os.system("cls")
-                            continue
-                        
-
-                    except ValueError:
-                        print("indico caracteres invalidos para guardar la fecha. intente de nuevo")
-                        continue
-
-                    with open ("historial_red.txt", "a", encoding="utf-8") as historial:
-                        historial.write(f"\nfecha: {fecha}\n===== HISTORIAL DE REPORTE DE RED =====\n")
-                        for dispositivo, informacion in diagnosticos.items():   
-                            historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
-                    contador+=1
-
-                    if contador==1:
-                        break
-                     
             elif histo==2:
                 os.system("pause")
                 os.system("cls")
                 continue
-
-            elif histo<1 or histo>2:
-                print("no indico que desea realizar correctamente") 
-                os.system("pause")
-                os.system("cls")
-                continue  
 
     elif opcion == 2:
         operativos=[]
@@ -110,7 +105,6 @@ while True:
                 fallas.append(dispositivo)
             elif info["estado"] == "Mantenimiento":
                 mantenimiento.append(dispositivo)
-
             tiempos.append(info["tiempo"])
 
         promedio_tiemp= sum(tiempos) / len(tiempos)
@@ -133,21 +127,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         reemplazo=input("desea reemplazar todo el archivo de registro? \nEscriba si o no \nDigite: ").lower()
         if reemplazo=="si":
             try:
-                #aqui le indico al usuario que me indique una fecha de registro
-                fecha=input("Digite la fecha para guardar el registro ejemplo:\ndia:22\nmes:05 o 10\naño:26 \nno poner espacios cuando indique la fecha \nDigite: ")
-
-                if len(fecha) ==6:
-                    dia=fecha[:2]
-                    mes=fecha[2:4]
-                    año=fecha[4:6]
-                    fecha=f"{dia}-{mes}-{año}"
-                    os.system("pause")
-                    os.system("cls")
-                else:
-                    print("no ingreso los datos correctamente. Vuelva a intentarlo.")
-                    os.system("pause")
-                    os.system("cls")
-                    continue
+                fecha=pedir_fecha()
                 with open ("historial_red.txt", "w", encoding="utf-8") as historial:
                     historial.write(f"\nfecha: {fecha}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                     for dispositivo, informacion in diagnosticos.items():   
@@ -158,8 +138,8 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                 os.system("cls")
 
         elif reemplazo=="no":
+            os.system("pause")
             os.system("cls")
-        os.system("pause")
 
     elif opcion==4:
         try:
@@ -168,7 +148,6 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                 print(historial.read())
                 os.system("pause")
                 os.system("cls")
-                
         except FileNotFoundError:
             print("El archivo no existe. O no se ah guardado ningun dato todavia.")
             os.system("pause")
