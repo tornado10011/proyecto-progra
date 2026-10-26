@@ -1,13 +1,9 @@
 import random 
 import os
 
-dispositivos = ["Router", "Switch", "Servidor", "Access Point"]
-estados = ("Operativo", "Falla", "Mantenimiento") 
-diagnosticos = {}
-
 def estado():
     return random.choice(estados)
-
+# funcion para 
 def tiempo():
     return random.randint(1, 100) 
 
@@ -32,6 +28,11 @@ def pedir_fecha():
             os.system("pause")
             os.system("cls")
             continue
+
+## lista, tupla y diccionario 
+dispositivos = ["Router", "Switch", "Servidor", "Access Point"]
+estados = ("Operativo", "Falla", "Mantenimiento") 
+diagnosticos = {}
 
 os.system("cls")
 print("Bienvenido al programa de Diagnostico de Redes")
