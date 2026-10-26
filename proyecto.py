@@ -3,7 +3,7 @@ import os
 
 def estado():
     return random.choice(estados)
-# funcion para 
+    
 def tiempo():
     return random.randint(1, 100) 
 
@@ -23,20 +23,20 @@ def pedir_fecha():
             os.system("pause")
             os.system("cls")
             return fecha
+            
         else:
             print("no ingreso los datos correctamente. Vuelva a intentarlo.")
             os.system("pause")
             os.system("cls")
             continue
 
-## lista, tupla y diccionario 
-dispositivos = ["Router", "Switch", "Servidor", "Access Point"]
-estados = ("Operativo", "Falla", "Mantenimiento") 
-diagnosticos = {}
+dispositivos = ["Router", "Switch", "Servidor", "Access Point"]# la lista se usa para ver lo dispositivos en el diagnostico
+estados = ("Operativo", "Falla", "Mantenimiento") #la tupla es para ver el estado de el dispositivo en el diagnostico
+diagnosticos = {}#el diccionario es donde se van a guardar los diagnosticos hechos anteriormente
 
 os.system("cls")
 print("Bienvenido al programa de Diagnostico de Redes")
-
+# este for es para que contar la cantidad de dispositivos y otorgarles un estado y tiempo. Tambien para que se guarde en el diccionario
 for i in range(len(dispositivos)):
             diagnosticos[dispositivos[i]] = {"estado": estado(), "tiempo": tiempo()}
 
@@ -56,7 +56,7 @@ while True:
         os.system("pause")
         os.system("cls")
         continue
-
+#en la opcion 1, lo que se hace es: el for recorre los items 
     if opcion == 1:
             os.system("cls")
             print("===== REPORTE DE RED =====")
