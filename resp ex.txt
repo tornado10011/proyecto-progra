@@ -1,0 +1,35 @@
+1-[1, 1, 2]
+2-Su posición dentro de la lista de argumentos
+3-nums y vals tienen la misma longitud (Seleccionar dos respuestas)
+4-!=
+5-Provocará un error de ejecución
+6-Es igual a 0
+7-Es erróneo
+8-False
+9-in, for (Seleccionar dos respuestas)
+10-[0, 1, 4, 9]
+11-1, 1, 2
+12-0, 1
+13-2
+14-nums y vals tienen la misma longitud
+15-0
+16-33
+17-asepbpsepbc
+18-0.2
+19-Es legal
+20-2.0
+21-one
+22-Cero
+23-fun(0, 1, 2) (Selecciona dos respuestas válidas según la signatura)
+24-0
+25-El fragmento entrará en un bucle infinito, imprimiendo un * por línea
+26-4
+27-El código es erróneo (el objeto dict no contiene el método vals())
+28-(2, 1)
+29-4
+30-Tres
+31-0.0
+32-El programa provocará una excepción SyntaxError
+33-El programa provocará una excepción ValueError
+34-A solamente (en relación a la sintaxis correcta con paréntesis para múltiples excepciones)
+35-El código generará la excepción SyntaxError
