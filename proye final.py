@@ -1,5 +1,6 @@
 import random 
 import os
+import time
 
 def estado():
     return random.choice(estados)
@@ -7,34 +8,10 @@ def estado():
 def tiempo():
     return random.randint(1, 100) 
 
-#estoy definiendo el pedir fecha para no escribir todo el codigo varias veces
-def pedir_fecha():
-    while True:
-            fecha=input("\nDigite la fecha para guardar el registro ejemplo:"" 221026 ""=DD/MM/YY \nno poner espacios cuando indique la fecha \nDigite: ")
-            #aqui lo que hago es dividir los datos ingresados por el usuario y los divido entre dia mes y año y luego lo formateo con un - por medio
-            if len(fecha) == 6:
-                try:
-                    #el valor del input son letras entonces lo siguiente es pasarlo a numeros y si no son numeros enteros pasara lo que dice el siguiente except 
-                    dia=int(fecha[:2])
-                    mes=int(fecha[2:4])
-                    año=int(fecha[4:6])
-                
-                    fecha=f"{dia}-{mes}-{año}"
-                    os.system("pause")
-                    os.system("cls")
-                    return fecha
-                
-                except (ValueError, TypeError):
-                    print("no ingreso los datos correctamente. Vuelva a intentarlo.")
-                    os.system("pause")
-                    os.system("cls")
-                    continue
-                
-            else:
-                print("no ingreso los datos correctamente. Vuelva a intentarlo.")
-                os.system("pause")
-                os.system("cls")
-                continue
+#estoy definiendo el pedir fecha con el import time
+def fecha():
+    fecha_actual = time.strftime("%d-%m-%Y %H:%M:%S")
+    return fecha_actual
 
 dispositivos = ["Router", "Switch", "Servidor", "Access Point"]
 estados = ("Operativo", "Falla", "Mantenimiento") 
@@ -81,12 +58,16 @@ while True:
 
     elif opcion==2:
                 #lo que se hace aqui es pedirle la fecha definida al inicio del codigo y crear el txt y guarda el reporte hecho anteriormente
-                fecha=pedir_fecha()
+                fecha=fecha()
                 with open ("historial_red.txt", "a", encoding="utf-8") as historial:
                     historial.write(f"\nfecha: {fecha}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                     #aqui lo que se hace es dividir los dispositivos y la informacion guardados en el diccionario y crear y escribirlo en un archivo llamado historial_red.txt
                     for dispositivo, informacion in diagnosticos.items():   
                         historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
+                    os.system("cls")
+                    print("Se ah guardado correctanente el registro.")
+                    os.system("pause")
+                    os.system("cls")
                     continue
                 break
 
@@ -129,12 +110,16 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                 reemplazo=int(input("desea reemplazar todo el archivo de registro? \nEscriba 1 si, 2 no \nDigite: "))
                 if reemplazo==1:
                     try:
-                        fecha=pedir_fecha()
+                        fecha=fecha()
                         with open ("historial_red.txt", "w", encoding="utf-8") as historial:
                             historial.write(f"\nfecha: {fecha}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                             for dispositivo, informacion in diagnosticos.items():   
                                 historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
                             historial.write(" ")
+                            print("el sistema guardo realizo correctamente el reemplazo")
+                            os.system("pause")
+                            os.system("cls")
+                            break
                     except FileNotFoundError:
                         print("El archivo no existe. O no se ah guardado ningun dato todavia.")
                         os.system("cls")
