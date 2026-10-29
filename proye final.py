@@ -55,6 +55,7 @@ while True:
              # cuando se termina de imprimir la primera por ejemplo el router, se hace un \n automatico para seguir con el siguiente, por eso la funcion de arriba de recorrer cada dispositivo
                 print(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms """)  
             os.system("pause")
+            os.system("cls")
 
     elif opcion==2:
                 #lo que se hace aqui es pedirle la fecha definida al inicio del codigo y crear el txt y guarda el reporte hecho anteriormente
