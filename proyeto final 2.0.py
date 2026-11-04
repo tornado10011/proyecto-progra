@@ -8,7 +8,7 @@ def estado():
 def tiempo():
     return random.randint(1, 100) 
 
-#estoy definiendo el pedir fecha con el import time
+#estoy definiendo el pedir fecha con el import time que me lo va a devolver como un dato legible de dia/mes/año y tambien se le agrego la opcion de guardar la hora, minuto y segundo
 def fecha():
     fecha_actual = time.strftime("%d-%m-%Y %H:%M:%S")
     return fecha_actual
@@ -63,7 +63,6 @@ while True:
 
     elif opcion==2:
                 #lo que se hace aqui es pedirle la fecha definida al inicio del codigo y crear el txt y guarda el reporte hecho anteriormente
-                fecha_actual=fecha()
                 with open ("historial_red.txt", "a", encoding="utf-8") as historial:
                     historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                     #aqui lo que se hace es dividir los dispositivos y la informacion guardados en el diccionario y crear y escribirlo en un archivo llamado historial_red.txt
@@ -132,7 +131,6 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                 reemplazo=int(input("desea reemplazar todo el archivo de registro por el ultimo diagnostico? \nEscriba 1 si, 2 no \nDigite: "))
                 if reemplazo==1:
                     try:
-                        fecha_actual=fecha()
                         with open ("historial_red.txt", "w", encoding="utf-8") as historial:
                             historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                             for dispositivo, informacion in diagnosticos.items():   
@@ -162,18 +160,39 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                 os.system("cls")
                 continue
 
+    #esto le pregunta si desea borrar el archivo de registro y tmb le vuelve a preguntar como confirmacion de seguridad
     elif opcion == 7:
-        os.system("cls")
-        if os.path.exists("historial_red.txt"):
-            os.remove("historial_red.txt")
-            print("el archivo se borro correctamente")
-            os.system("pause")
+        while True:
             os.system("cls")
-        else:
-            print("El archivo no existe o no se a guardado ningun dato.")
-            os.system("pause")
-            os.system("cls")
-        
+            try:
+                seguro=int(input("Si esta seguro que desea borrar el archivo presione 1, si no presione 2\nDigite:"))
+                if seguro==1:
+                    if os.path.exists("historial_red.txt"):
+                        os.remove("historial_red.txt")
+                        print("el archivo se borro correctamente")
+                        os.system("pause")
+                        os.system("cls")
+                        break
+                    else:
+                        print("El archivo no existe o no se a guardado ningun dato.")
+                        os.system("pause")
+                        os.system("cls")
+                elif seguro==2:
+                    print("no se borrara el archivo")
+                    os.system("pause")
+                    os.system("cls")
+                    break
+
+                elif seguro<1 or seguro>2:
+                    print("digito un dato erroneo vuelva a intentarlo")
+                    os.system("pause")
+                    os.system("cls")
+                    continue
+            except (ValueError, TypeError):
+                print("digito un dato erroneo vuelva a intentarlo")
+                os.system("pause")
+                os.system("cls")
+                
     elif opcion == 8:
         #esta opcion es solamente para que el usuario pueda salir del diagnostico
         os.system("cls")
