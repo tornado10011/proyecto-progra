@@ -67,7 +67,7 @@ while True:
                     historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                     #aqui lo que se hace es dividir los dispositivos y la informacion guardados en el diccionario y crear y escribirlo en un archivo llamado historial_red.txt
                     for dispositivo, informacion in diagnosticos.items():   
-                        historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
+                        historial.write(f"{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n")
                     os.system("cls")
                     print("Se ah guardado correctanente el registro.")
                     os.system("pause")
