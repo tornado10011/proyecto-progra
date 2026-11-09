@@ -87,7 +87,8 @@ while True:
             os.system("cls")
 
     elif opcion==2:    
-        if reporte_guardado:
+        #aqui verifico con una variable creada anteriormente para comprobar si ya se guardo el diagnostico anteriormente para que no se guarde varias veces el mismo
+        if reporte_guardado == True:
             os.system("cls")
             print("el diagnostico actual ya fue guardado anteriormente \nEjecute uno nuevo para poder guardar ")
             os.system("pause")
@@ -107,6 +108,7 @@ while True:
 Dispositivos en falla: {len(fallas)}
 dispositivos en mantenimiento: {len(mantenimiento)}
 Promedio de los tiempos de respuesta: {promedio_tiemp}\n\n""")
+                #aqui paso la variable a verdadera para que ya no se pueda volver a guardar 
                 reporte_guardado = True
                 os.system("cls")
                 print("Se ha guardado correctanente el registro.")
@@ -134,6 +136,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         diagnosticos.clear()
         for i in range(len(dispositivos)):
             diagnosticos[dispositivos[i]] = {"estado": estado(), "tiempo": tiempo()}
+        #aqui cambio la variable nuevamente a falso para que se pueda volver a guardar
         reporte_guardado = False
         print("Se ha ejecutado un nuevo diagnóstico de red.\n")
         os.system("pause")
@@ -157,7 +160,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         while True:
             # esto lo que hace es reemplazar los datos pero en el archivo y con la w borra y escribe los datos nuevos
             try:
-                reemplazo=int(input("desea reemplazar todo el archivo de registro por el ultimo diagnostico? \nDigite 1 si desea reempplazar o 2  si no desea reemplazarlo \nDigite: "))
+                reemplazo=int(input("desea reemplazar todo el archivo de registro por el ultimo diagnostico? \nDigite 1 si desea reempplazar o 2 si no desea reemplazarlo \nDigite: "))
                 if reemplazo==1:
                     try:
                         # aqui es lo mismo que la opcion 2 y 3, para guardar un nuevo registro o si quiere borrar todos los registros y solamente dejar el ultimo que ejecuto y si no existe el archivo lo creara automaticamente 
@@ -175,14 +178,17 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                         os.system("pause")
                         os.system("cls")
                         break
+
                     except FileNotFoundError:
                         print("El archivo no existe. O no se ha guardado ningun dato todavia.")
                         os.system("cls")
+                        
                 elif reemplazo==2:
                     os.system("pause")
                     os.system("cls")
                     break
 
+                #proteccion a datos ingresados erroneamente 
                 elif reemplazo<1 or reemplazo>2:
                     print("no ingresó los datos correctamente. Vuelva a intentarlo.")
                     os.system("pause")
