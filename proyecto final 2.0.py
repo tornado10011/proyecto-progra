@@ -41,6 +41,11 @@ diagnosticos = {}
 for i in range(len(dispositivos)):
             diagnosticos[dispositivos[i]] = {"estado": estado(), "tiempo": tiempo()} 
 
+try:
+    os.remove("historial_red.txt")
+except FileNotFoundError:
+    print()
+
 os.system("cls")
 print("Bienvenido al programa de Diagnostico de Redes")
 while True:
