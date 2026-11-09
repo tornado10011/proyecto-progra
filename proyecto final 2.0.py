@@ -13,16 +13,36 @@ def fecha():
     fecha_actual = time.strftime("%d-%m-%Y %H:%M:%S")
     return fecha_actual
 
+#esta definicion es para sacar las estadisticas y no tener que hacer este paso en cada opcion requerida de estadisticas 
+def estadisticas():
+    operativos = []
+    fallas = []
+    mantenimiento = []
+    tiempos = []
+
+    # divide la informacion del diccionario en dispositivos e informacion para sacar los estados de los dispositivos
+    for dispositivo, info in diagnosticos.items():
+        if info["estado"] == "Operativo":
+            operativos.append(dispositivo)
+        elif info["estado"] == "Falla":
+            fallas.append(dispositivo)
+        elif info["estado"] == "Mantenimiento":
+            mantenimiento.append(dispositivo)
+        tiempos.append(info["tiempo"])
+
+    #lo devuelvo con esos valores para proximamente desempaquetarlo para las opciones requeridas
+    return operativos, fallas, mantenimiento, tiempos
+
 dispositivos = ["Router", "Switch", "Servidor", "Access Point"]
 estados = ("Operativo", "Falla", "Mantenimiento") 
 diagnosticos = {}
 
-os.system("cls")
-print("Bienvenido al programa de Diagnostico de Redes")
 #en lo que sigue se lee una lista para sacar los nombres de los dispositivos y  asignarles el estado y el tiempo con el .choice para el estado y random para el tiempo
 for i in range(len(dispositivos)):
             diagnosticos[dispositivos[i]] = {"estado": estado(), "tiempo": tiempo()} 
 
+os.system("cls")
+print("Bienvenido al programa de Diagnostico de Redes")
 while True:
     print("=== /Menu Principal\\ === : \n"
           "------------------------------------\n"
@@ -43,7 +63,8 @@ while True:
           "8. Salir del programa \n"
           "-------------------------------------\n"
           )
-        
+
+    #se protege que el usuario ingrese adecuadamente la opcion y no valores que no se pueden procesar 
     try:
         opcion = int(input("Ingrese el número de la opción deseada: "))
     except ValueError:
@@ -52,45 +73,41 @@ while True:
         os.system("cls")
         continue
 
+
     if opcion == 1:
             os.system("cls")
             print("===== REPORTE DE RED =====")
             for dispositivo, informacion in diagnosticos.items():   
              # cuando se termina de imprimir la primera por ejemplo el router, se hace un \n automatico para seguir con el siguiente, por eso la funcion de arriba de recorrer cada dispositivo
-                print(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms """)  
+                print(f"{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms ")  
             os.system("pause")
             os.system("cls")
 
     elif opcion==2:
-                #lo que se hace aqui es pedirle la fecha definida al inicio del codigo y crear el txt y guarda el reporte hecho anteriormente
+                # aqui lo que estoy haciendo es un tipo de desempaquetado de la definicion para poder guardar facilmente las estadisticas
+                operativos, fallas, mantenimiento, tiempos =estadisticas()
+                # esto lo que hace es agarrar todos los tiempos dados a los dispositivos y sacar un promedio general
+                promedio_tiemp= sum(tiempos) / len(tiempos) 
                 with open ("historial_red.txt", "a", encoding="utf-8") as historial:
                     historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                     #aqui lo que se hace es dividir los dispositivos y la informacion guardados en el diccionario y crear y escribirlo en un archivo llamado historial_red.txt
                     for dispositivo, informacion in diagnosticos.items():   
-                        historial.write(f"{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n")
+                        historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
+                    historial.write(f"""\nESTADISTICAS\nDispositivos operativos: {len(operativos)}
+Dispositivos en falla: {len(fallas)}
+dispositivos en mantenimiento: {len(mantenimiento)}
+Promedio de los tiempos de respuesta: {promedio_tiemp}\n\n""")
                     os.system("cls")
                     print("Se ah guardado correctanente el registro.")
                     os.system("pause")
                     os.system("cls")
                     continue
-                break
 
     elif opcion == 3:
-        operativos=[]
-        fallas=[]
-        mantenimiento=[]
-        tiempos=[]
-        # divide la informacion del diccionario en dispositivos e informacion para sacar los estados de los dispositivos 
-        for dispositivo, info in diagnosticos.items():
-            if info["estado"] == "Operativo":
-                operativos.append(dispositivo)
-            elif info["estado"] == "Falla":
-                fallas.append(dispositivo)
-            elif info["estado"] == "Mantenimiento":
-                mantenimiento.append(dispositivo)
-            tiempos.append(info["tiempo"])
+        # aqui es lo mismo que en la opcion anterior pero para mostrarlo al usuario 
+        operativos, fallas, mantenimiento, tiempos =estadisticas()
         # esto lo que hace es agarrar todos los tiempos dados a los dispositivos y sacar un promedio general
-        promedio_tiemp= sum(tiempos) / len(tiempos)
+        promedio_tiemp= sum(tiempos) / len(tiempos) 
         os.system("cls")
         print("ESTADÍSTICAS")
         print(f"""Dispositivos operativos: {len(operativos)}
@@ -131,15 +148,21 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                 reemplazo=int(input("desea reemplazar todo el archivo de registro por el ultimo diagnostico? \nEscriba 1 si, 2 no \nDigite: "))
                 if reemplazo==1:
                     try:
+                        # aqui es lo mismo que la opcion 2 y 3, para guardar un nuevo registro o si quiere borrar todos los registros y solamente dejar el ultimo que ejecuto y si no existe el archivo lo creara automaticamente 
+                        operativos, fallas, mantenimiento, tiempos =estadisticas()
+                        promedio_tiemp= sum(tiempos) / len(tiempos) 
                         with open ("historial_red.txt", "w", encoding="utf-8") as historial:
                             historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
                             for dispositivo, informacion in diagnosticos.items():   
                                 historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
-                            historial.write(" ")
-                            print("el sistema guardo realizo correctamente el reemplazo")
-                            os.system("pause")
-                            os.system("cls")
-                            break
+                            historial.write(f"""\nESTADISTICAS\nDispositivos operativos: {len(operativos)}
+                            Dispositivos en falla: {len(fallas)}
+                            dispositivos en mantenimiento: {len(mantenimiento)}
+                            Promedio de los tiempos de respuesta: {promedio_tiemp}\n\n""")
+                        print("el sistema guardo realizo correctamente el reemplazo")
+                        os.system("pause")
+                        os.system("cls")
+                        break
                     except FileNotFoundError:
                         print("El archivo no existe. O no se ah guardado ningun dato todavia.")
                         os.system("cls")
@@ -200,7 +223,6 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
         break
 
     elif opcion>=9 or opcion<1:
-        os.system("cls")
         print("se digito un numero erroneo, se reiniciara el programa")
         os.system("pause")
         os.system("cls")
