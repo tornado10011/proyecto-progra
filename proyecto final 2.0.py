@@ -89,7 +89,7 @@ while True:
                 # esto lo que hace es agarrar todos los tiempos dados a los dispositivos y sacar un promedio general
                 promedio_tiemp= sum(tiempos) / len(tiempos) 
                 with open ("historial_red.txt", "a", encoding="utf-8") as historial:
-                    historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
+                    historial.write(f"\n===== HISTORIAL DE REPORTE DE RED =====\nfecha: {fecha()}\n")
                     #aqui lo que se hace es dividir los dispositivos y la informacion guardados en el diccionario y crear y escribirlo en un archivo llamado historial_red.txt
                     for dispositivo, informacion in diagnosticos.items():   
                         historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
@@ -152,7 +152,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                         operativos, fallas, mantenimiento, tiempos =estadisticas()
                         promedio_tiemp= sum(tiempos) / len(tiempos) 
                         with open ("historial_red.txt", "w", encoding="utf-8") as historial:
-                            historial.write(f"\nfecha: {fecha()}\n===== HISTORIAL DE REPORTE DE RED =====\n")
+                            historial.write(f"\n===== HISTORIAL DE REPORTE DE RED ===== \nfecha: {fecha()}\n")
                             for dispositivo, informacion in diagnosticos.items():   
                                 historial.write(f"""{dispositivo}: {informacion["estado"]} - {informacion["tiempo"]} ms \n""")
                             historial.write(f"""\nESTADISTICAS\nDispositivos operativos: {len(operativos)}
@@ -200,6 +200,7 @@ Promedio de los tiempos de respuesta: {promedio_tiemp}""")
                         print("El archivo no existe o no se a guardado ningun dato.")
                         os.system("pause")
                         os.system("cls")
+                        break
                 elif seguro==2:
                     print("no se borrara el archivo")
                     os.system("pause")
